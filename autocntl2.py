@@ -100,6 +100,7 @@ def cd_trans(A,B,C,T):
     return A_t,B_t,C_t
 
 def feedback(f):
+    
     pass
 
 def observer(g):
