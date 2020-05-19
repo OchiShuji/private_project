@@ -66,6 +66,8 @@ class NacaFourdigit:
             y_u[i] = y_c[i] + y_t[i] * np.cos(theta[i])
             x_l[i] = x[i] + y_t[i]*np.sin(theta[i])
             y_l[i] = y_c[i] - y_t[i] * np.cos(theta[i])
+        x_u[0],y_u[0],x_u[-1],y_u[-1] = min(x),0.0,max(x),0.0
+        x_l[0],y_l[0],x_l[-1],y_l[-1] = min(x),0.0,max(x),0.0
         return x_u,y_u,x_l,y_l
 
     def print_params(self):
@@ -78,22 +80,25 @@ class NacaFourdigit:
     def export(self,x):
         '''Export coordinates as csv'''
         import csv
-        file_name = "NACA" + self.param + ".csv"
+        file_name = "naca" + self.param + ".csv"
         f = open(file_name,"w")
         w = csv.writer(f)
-        w.writerow(["x","y_c","x_u","y_u","x_l","y_l"])
         N = len(x)
         y_c = self.camber_line(x)
         x_u,y_u,x_l,y_l = self.wingsection(x)
+        for i in range(1,N+1):
+            w.writerow([np.round(x_u[N-i],4),np.round(y_u[N-i],4)])
         for i in range(0,N):
-            w.writerow([np.round(x[i],4),np.round(y_c[i],4),np.round(x_u[i],4),np.round(y_u[i],4),np.round(x_l[i],4),np.round(y_l[i],4)])
+            w.writerow([np.round(x_l[i],4),np.round(y_l[i],4)])
         f.close()
 
 
 class NacaFivedigit:
-    pass
+    def __init__(self,param):
+        pass
 
-wing1 = NacaFourdigit("2412.5")
+
+wing1 = NacaFourdigit("0012.5")
 x = np.linspace(0,1,100)
 x_u,y_u,x_l,y_l = wing1.wingsection(x)
 wing1.export(x)

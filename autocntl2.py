@@ -25,7 +25,7 @@ for i in range(0,n):
         def input_B():
             try:
                 B[i,k] = input("B：{}行{}列要素=".format(i+1,k+1))
-            except ValueError:
+            except ValueErro
                 print("エラー：不正な入力")
                 input_B()
         input_B()
